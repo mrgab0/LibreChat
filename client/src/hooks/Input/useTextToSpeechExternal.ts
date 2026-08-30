@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { useToastContext } from '@librechat/client';
 import { useTextToSpeechMutation, useVoicesQuery } from '~/data-provider';
 import { useLocalize } from '~/hooks';
+import { cleanTextForSpeech } from 'librechat-data-provider';
 import store from '~/store';
 
 const createFormData = (text: string, voice: string) => {
@@ -139,12 +140,7 @@ function useTextToSpeechExternal({
   };
 
   const generateSpeechExternal = (rawText: string, download: boolean) => {
-    const text = (rawText || '')
-      .replace(/<think>[\s\S]*?<\/think>/gi, '')
-      .replace(/<think>[\s\S]*/gi, '')
-      .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
-      .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
-      .trim();
+    const text = cleanTextForSpeech(rawText);
 
     if (cacheTTS) {
       handleCachedResponse(text, download);

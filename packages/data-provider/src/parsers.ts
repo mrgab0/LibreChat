@@ -412,15 +412,60 @@ export function parseTextParts(
   }
 
   if (skipReasoning && result) {
-    result = result
-      .replace(/<think>[\s\S]*?<\/think>/gi, '')
-      .replace(/<think>[\s\S]*/gi, '')
-      .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
-      .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
-      .trim();
+    result = cleanTextForSpeech(result);
   }
 
   return result;
+}
+
+export function cleanTextForSpeech(text: string): string {
+  if (!text || typeof text !== 'string') {
+    return '';
+  }
+
+  let cleaned = text;
+
+  // 1. Remove CoT reasoning tags (<think>...</think>, <thought>...</thought>, etc.)
+  cleaned = cleaned
+    .replace(/<think>[\s\S]*?<\/think>/gi, '')
+    .replace(/<think>[\s\S]*/gi, '')
+    .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
+    .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '');
+
+  // 2. Remove Markdown links: [text](url) -> text
+  cleaned = cleaned.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+
+  // 3. Remove Markdown headers (# Header -> Header)
+  cleaned = cleaned.replace(/^#+\s+/gm, '');
+
+  // 4. Remove Markdown code block backticks ```lang ... ```
+  cleaned = cleaned.replace(/```[a-z]*\n?/gi, '').replace(/```/g, '');
+
+  // 5. Remove Inline code backticks
+  cleaned = cleaned.replace(/`/g, '');
+
+  // 6. Remove Markdown bold/italic asterisks (*word*, **word**, ***word***)
+  cleaned = cleaned.replace(/\*{1,3}([^*]+)\*{1,3}/g, '$1').replace(/\*/g, '');
+
+  // 7. Remove Markdown strikethrough (~~word~~) and tildes
+  cleaned = cleaned.replace(/~~([^~]+)~~/g, '$1').replace(/~/g, '');
+
+  // 8. Remove Markdown bullet points (- item, * item, + item)
+  cleaned = cleaned.replace(/^[\s]*[-*+]\s+/gm, '');
+
+  // 9. Remove Quotes (", ', “, ”, ‘, ’, «, »)
+  cleaned = cleaned.replace(/["'“”‘’«»]/g, '');
+
+  // 10. Remove Unicode Emojis
+  cleaned = cleaned.replace(/\p{Extended_Pictographic}/gu, '');
+
+  // 11. Remove Text Emoticons (:) :-P :D xD XD ;) etc.)
+  cleaned = cleaned
+    .replace(/\b(?:xD|XD|x-D)\b/gi, '')
+    .replace(/(?:^|\s)(?::[-~]?[()DdPpSSOo\/\\|]|;[-~]?[()D]|:\)|:\(|;\))(?=$|\s|[.,!?])/gi, ' ');
+
+  return cleaned.replace(/\s+/g, ' ').trim();
+}
 }
 
 export const SEPARATORS = ['.', '?', '!', '۔', '。', '‥', ';', '¡', '¿', '\n', '```'];

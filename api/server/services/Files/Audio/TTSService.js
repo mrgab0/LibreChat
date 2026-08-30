@@ -274,14 +274,10 @@ class TTSService {
     if (url && (url.includes('/edge') || url.includes('edge-tts') || url.includes('localhost:3080'))) {
       const { Communicate } = require('edge-tts-universal');
       const { Readable } = require('stream');
+      const { cleanTextForSpeech } = require('librechat-data-provider');
       const selectedVoice = voice || data?.voice || 'es-PY-TaniaNeural';
-      let rawText = input || data?.input || '';
-      const inputText = rawText
-        .replace(/<think>[\s\S]*?<\/think>/gi, '')
-        .replace(/<think>[\s\S]*/gi, '')
-        .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
-        .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
-        .trim();
+      const rawText = input || data?.input || '';
+      const inputText = cleanTextForSpeech(rawText);
 
       const communicate = new Communicate(inputText || ' ', { voice: selectedVoice });
       const readable = new Readable({ read() {} });

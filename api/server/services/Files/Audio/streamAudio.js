@@ -4,6 +4,7 @@ const {
   CacheKeys,
   SEPARATORS,
   parseTextParts,
+  cleanTextForSpeech,
   findLastSeparatorIndex,
 } = require('librechat-data-provider');
 const { getLogStores } = require('~/cache');
@@ -108,12 +109,7 @@ function createChunkProcessor(user, messageId) {
     if (typeof message === 'object' && message.content?.length > 0) {
       text = parseTextParts(message.content, true);
     }
-    text = (text || '')
-      .replace(/<think>[\s\S]*?<\/think>/gi, '')
-      .replace(/<think>[\s\S]*/gi, '')
-      .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
-      .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
-      .trim();
+    text = cleanTextForSpeech(text);
 
     const complete = typeof message === 'string' ? false : (message.complete ?? true);
 

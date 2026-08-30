@@ -9,6 +9,7 @@ import {
   TooltipAnchor,
   RegenerateIcon,
 } from '@librechat/client';
+import { cleanTextForSpeech } from 'librechat-data-provider';
 import type { TConversation, TMessage, TFeedback } from 'librechat-data-provider';
 import { useGenerationsByLatest, useLocalize } from '~/hooks';
 import { Fork } from '~/components/Conversations';
@@ -71,12 +72,7 @@ const extractMessageContent = (message: TMessage): string => {
     rawText = message.text || '';
   }
 
-  return rawText
-    .replace(/<think>[\s\S]*?<\/think>/gi, '')
-    .replace(/<think>[\s\S]*/gi, '')
-    .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
-    .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
-    .trim();
+  return cleanTextForSpeech(rawText);
 };
 
 const HoverButton = memo(

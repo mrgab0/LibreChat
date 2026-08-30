@@ -1,6 +1,6 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useRef, useMemo, useEffect, useState } from 'react';
-import { parseTextParts } from 'librechat-data-provider';
+import { parseTextParts, cleanTextForSpeech } from 'librechat-data-provider';
 import type { TMessageContentParts } from 'librechat-data-provider';
 import type { Option } from '~/common';
 import useTextToSpeechExternal from '~/hooks/Input/useTextToSpeechExternal';
@@ -114,18 +114,6 @@ const useTextToSpeech = (props?: TUseTextToSpeech) => {
     }
   }, [setVoice, textToSpeechEndpoint, voice, voices]);
 
-  const cleanTextForTTS = (text: string) => {
-    if (!text || typeof text !== 'string') {
-      return '';
-    }
-    return text
-      .replace(/<think>[\s\S]*?<\/think>/gi, '')
-      .replace(/<think>[\s\S]*/gi, '')
-      .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
-      .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
-      .trim();
-  };
-
   const handleMouseDown = () => {
     isMouseDownRef.current = true;
     timerRef.current = window.setTimeout(() => {
@@ -133,7 +121,7 @@ const useTextToSpeech = (props?: TUseTextToSpeech) => {
         const messageContent = content ?? '';
         const parsedMessage =
           typeof messageContent === 'string' ? messageContent : parseTextParts(messageContent, true);
-        generateSpeech(cleanTextForTTS(parsedMessage), false);
+        generateSpeech(cleanTextForSpeech(parsedMessage), false);
       }
     }, 1000);
   };
@@ -153,7 +141,7 @@ const useTextToSpeech = (props?: TUseTextToSpeech) => {
       const messageContent = content ?? '';
       const parsedMessage =
         typeof messageContent === 'string' ? messageContent : parseTextParts(messageContent, true);
-      generateSpeech(cleanTextForTTS(parsedMessage), false);
+      generateSpeech(cleanTextForSpeech(parsedMessage), false);
     }
   };
 
