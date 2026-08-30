@@ -275,8 +275,15 @@ class TTSService {
       const { Communicate } = require('edge-tts-universal');
       const { Readable } = require('stream');
       const selectedVoice = voice || data?.voice || 'es-PY-TaniaNeural';
-      const inputText = input || data?.input;
-      const communicate = new Communicate(inputText, { voice: selectedVoice });
+      let rawText = input || data?.input || '';
+      const inputText = rawText
+        .replace(/<think>[\s\S]*?<\/think>/gi, '')
+        .replace(/<think>[\s\S]*/gi, '')
+        .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
+        .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
+        .trim();
+
+      const communicate = new Communicate(inputText || ' ', { voice: selectedVoice });
       const readable = new Readable({ read() {} });
 
       (async () => {
