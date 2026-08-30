@@ -48,12 +48,26 @@ router.post('/edge', async (req, res) => {
   }
 
   try {
-    const { MsEdgeTTS, OUTPUT_FORMAT } = require('msedge-tts');
-    const selectedVoice = voice || 'es-MX-DaliaNeural';
-    const tts = new MsEdgeTTS();
-    await tts.setMetadata(selectedVoice, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3 || 'audio-24khz-48kbitrate-mono-mp3');
+    const { Communicate } = require('edge-tts-universal');
+    const { Readable } = require('stream');
+    const selectedVoice = voice || 'es-PY-TaniaNeural';
+    const communicate = new Communicate(inputText, { voice: selectedVoice });
+    const audioStream = new Readable({ read() {} });
+
+    (async () => {
+      try {
+        for await (const chunk of communicate.stream()) {
+          if (chunk.type === 'audio' && chunk.data) {
+            audioStream.push(Buffer.from(chunk.data));
+          }
+        }
+        audioStream.push(null);
+      } catch (err) {
+        audioStream.destroy(err);
+      }
+    })();
+
     res.setHeader('Content-Type', 'audio/mpeg');
-    const { audioStream } = tts.toStream(inputText);
     audioStream.pipe(res);
   } catch (error) {
     logger.error(`[edge-tts] Failed to generate speech: ${error}`);

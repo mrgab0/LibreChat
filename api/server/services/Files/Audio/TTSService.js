@@ -271,6 +271,30 @@ class TTSService {
 
     const [url, data, headers] = strategy.call(this, ttsSchema, input, voice, stream);
 
+    if (url && (url.includes('/edge') || url.includes('edge-tts') || url.includes('localhost:3080'))) {
+      const { Communicate } = require('edge-tts-universal');
+      const { Readable } = require('stream');
+      const selectedVoice = voice || data?.voice || 'es-PY-TaniaNeural';
+      const inputText = input || data?.input;
+      const communicate = new Communicate(inputText, { voice: selectedVoice });
+      const readable = new Readable({ read() {} });
+
+      (async () => {
+        try {
+          for await (const chunk of communicate.stream()) {
+            if (chunk.type === 'audio' && chunk.data) {
+              readable.push(Buffer.from(chunk.data));
+            }
+          }
+          readable.push(null);
+        } catch (err) {
+          readable.destroy(err);
+        }
+      })();
+
+      return { data: readable };
+    }
+
     [data, headers].forEach(this.removeUndefined.bind(this));
 
     const options = { headers, responseType: stream ? 'stream' : 'arraybuffer' };
