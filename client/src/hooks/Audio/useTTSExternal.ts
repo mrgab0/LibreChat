@@ -56,14 +56,26 @@ const useTTSExternal = (props?: TUseTextToSpeech) => {
     }
   }, [setVoice, voice, voices]);
 
+  const cleanTextForTTS = (text: string) => {
+    if (!text || typeof text !== 'string') {
+      return '';
+    }
+    return text
+      .replace(/<think>[\s\S]*?<\/think>/gi, '')
+      .replace(/<think>[\s\S]*/gi, '')
+      .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
+      .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
+      .trim();
+  };
+
   const handleMouseDown = () => {
     isMouseDownRef.current = true;
     timerRef.current = window.setTimeout(() => {
       if (isMouseDownRef.current) {
         const messageContent = content ?? '';
         const parsedMessage =
-          typeof messageContent === 'string' ? messageContent : parseTextParts(messageContent);
-        generateSpeech(parsedMessage, false);
+          typeof messageContent === 'string' ? messageContent : parseTextParts(messageContent, { skipReasoning: true });
+        generateSpeech(cleanTextForTTS(parsedMessage), false);
       }
     }, 1000);
   };
@@ -82,8 +94,8 @@ const useTTSExternal = (props?: TUseTextToSpeech) => {
     } else {
       const messageContent = content ?? '';
       const parsedMessage =
-        typeof messageContent === 'string' ? messageContent : parseTextParts(messageContent);
-      generateSpeech(parsedMessage, false);
+        typeof messageContent === 'string' ? messageContent : parseTextParts(messageContent, { skipReasoning: true });
+      generateSpeech(cleanTextForTTS(parsedMessage), false);
     }
   };
 

@@ -138,7 +138,14 @@ function useTextToSpeechExternal({
     processAudio(formData);
   };
 
-  const generateSpeechExternal = (text: string, download: boolean) => {
+  const generateSpeechExternal = (rawText: string, download: boolean) => {
+    const text = (rawText || '')
+      .replace(/<think>[\s\S]*?<\/think>/gi, '')
+      .replace(/<think>[\s\S]*/gi, '')
+      .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
+      .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
+      .trim();
+
     if (cacheTTS) {
       handleCachedResponse(text, download);
     } else {
