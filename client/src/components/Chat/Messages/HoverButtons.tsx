@@ -48,12 +48,11 @@ type HoverButtonProps = {
 };
 
 const extractMessageContent = (message: TMessage): string => {
+  let rawText = '';
   if (typeof message.content === 'string') {
-    return message.content;
-  }
-
-  if (Array.isArray(message.content)) {
-    return message.content
+    rawText = message.content;
+  } else if (Array.isArray(message.content)) {
+    rawText = message.content
       .map((part) => {
         if (part == null) {
           return '';
@@ -62,21 +61,22 @@ const extractMessageContent = (message: TMessage): string => {
           return part;
         }
         if ('text' in part) {
-          return part.text || '';
+          return (typeof part.text === 'string' ? part.text : part.text?.value) || '';
         }
-        if ('think' in part) {
-          const think = part.think;
-          if (typeof think === 'string') {
-            return think;
-          }
-          return think && 'text' in think ? think.text || '' : '';
-        }
+        // Exclude think / reasoning parts explicitly for audio playback
         return '';
       })
       .join('');
+  } else {
+    rawText = message.text || '';
   }
 
-  return message.text || '';
+  return rawText
+    .replace(/<think>[\s\S]*?<\/think>/gi, '')
+    .replace(/<think>[\s\S]*/gi, '')
+    .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
+    .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
+    .trim();
 };
 
 const HoverButton = memo(
