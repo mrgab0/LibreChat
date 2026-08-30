@@ -40,6 +40,29 @@ router.post(
   },
 );
 
+router.post('/edge', async (req, res) => {
+  const { input, text, voice } = req.body || {};
+  const inputText = input || text;
+  if (!inputText) {
+    return res.status(400).send('Missing text in request body');
+  }
+
+  try {
+    const { MsEdgeTTS, OUTPUT_FORMAT } = require('msedge-tts');
+    const selectedVoice = voice || 'es-MX-DaliaNeural';
+    const tts = new MsEdgeTTS();
+    await tts.setMetadata(selectedVoice, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3 || 'audio-24khz-48kbitrate-mono-mp3');
+    res.setHeader('Content-Type', 'audio/mpeg');
+    const { audioStream } = tts.toStream(inputText);
+    audioStream.pipe(res);
+  } catch (error) {
+    logger.error(`[edge-tts] Failed to generate speech: ${error}`);
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Failed to generate speech' });
+    }
+  }
+});
+
 const logDebugMessage = (req, message) =>
   logger.debug(`[streamAudio] user: ${req?.user?.id ?? 'UNDEFINED_USER'} | ${message}`);
 

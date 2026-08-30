@@ -108,7 +108,10 @@ class TTSService {
    * @throws {Error} If the selected voice is not available.
    */
   openAIProvider(ttsSchema, input, voice) {
-    const url = ttsSchema?.url || 'https://api.openai.com/v1/audio/speech';
+    let url = extractEnvVariable(ttsSchema?.url);
+    if (!url || url.startsWith('${')) {
+      url = process.env.EDGE_TTS_URL || 'http://localhost:3080/api/files/speech/tts/edge';
+    }
 
     if (
       ttsSchema?.voices &&
