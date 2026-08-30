@@ -411,6 +411,15 @@ export function parseTextParts(
     }
   }
 
+  if (skipReasoning && result) {
+    result = result
+      .replace(/<think>[\s\S]*?<\/think>/gi, '')
+      .replace(/<think>[\s\S]*/gi, '')
+      .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
+      .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
+      .trim();
+  }
+
   return result;
 }
 

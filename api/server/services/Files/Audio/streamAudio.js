@@ -93,7 +93,7 @@ function createChunkProcessor(user, messageId) {
       notFoundCount++;
       return [];
     } else {
-      const text = message.content?.length > 0 ? parseTextParts(message.content) : message.text;
+      const text = message.content?.length > 0 ? parseTextParts(message.content, true) : message.text;
       messageCache.set(
         cacheKey,
         {
@@ -104,7 +104,17 @@ function createChunkProcessor(user, messageId) {
       );
     }
 
-    const text = typeof message === 'string' ? message : message.text;
+    let text = typeof message === 'string' ? message : (message.text || '');
+    if (typeof message === 'object' && message.content?.length > 0) {
+      text = parseTextParts(message.content, true);
+    }
+    text = (text || '')
+      .replace(/<think>[\s\S]*?<\/think>/gi, '')
+      .replace(/<think>[\s\S]*/gi, '')
+      .replace(/<thought>[\s\S]*?<\/thought>/gi, '')
+      .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
+      .trim();
+
     const complete = typeof message === 'string' ? false : (message.complete ?? true);
 
     if (text === processedText) {
