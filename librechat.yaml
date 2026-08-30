@@ -27,28 +27,32 @@ endpoints:
     titleConvo: true
     titleModel: "gemini-2.0-flash"
 
-  groq:
-    apiKey: "${GROQ_API_KEY}"
-    models:
-      default:
-        - "llama-3.3-70b-versatile"
-        - "deepseek-r1-distill-llama-70b"
-        - "llama-3.1-8b-instant"
-      fetch: true
-    titleConvo: true
-    titleModel: "llama-3.3-70b-versatile"
-
-  mistral:
-    apiKey: "${MISTRAL_API_KEY}"
-    models:
-      default:
-        - "codestral-latest"
-        - "mistral-small-latest"
-      fetch: true
-    titleConvo: true
-    titleModel: "mistral-small-latest"
-
   custom:
+    - name: "Groq"
+      apiKey: "${GROQ_API_KEY}"
+      baseURL: "https://api.groq.com/openai/v1"
+      models:
+        default:
+          - "llama-3.3-70b-versatile"
+          - "deepseek-r1-distill-llama-70b"
+          - "llama-3.1-8b-instant"
+        fetch: true
+      titleConvo: true
+      titleModel: "llama-3.3-70b-versatile"
+      modelDisplayLabel: "Groq"
+
+    - name: "Mistral"
+      apiKey: "${MISTRAL_API_KEY}"
+      baseURL: "https://api.mistral.ai/v1"
+      models:
+        default:
+          - "codestral-latest"
+          - "mistral-small-latest"
+        fetch: true
+      titleConvo: true
+      titleModel: "mistral-small-latest"
+      modelDisplayLabel: "Mistral AI"
+
     - name: "OpenRouter-Free"
       apiKey: "${OPENROUTER_KEY}"
       baseURL: "https://openrouter.ai/api/v1"
