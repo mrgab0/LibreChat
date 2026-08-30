@@ -82,3 +82,11 @@ speech:
         - "es-US-AlonsoNeural"
         - "en-US-AvaNeural"
         - "en-US-AndrewNeural"
+  speechTab:
+    conversationMode: true
+    advancedMode: true
+    speechToText:
+      engineSTT: "browser"
+    textToSpeech:
+      engineTTS: "external"
+      voice: "es-PY-TaniaNeural"
