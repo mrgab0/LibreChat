@@ -456,8 +456,8 @@ export function cleanTextForSpeech(text: string): string {
   // 9. Remove Quotes (", ', “, ”, ‘, ’, «, »)
   cleaned = cleaned.replace(/["'“”‘’«»]/g, '');
 
-  // 10. Remove Backslashes, Slashes, Pipes, Carets, Underscores, Brackets, At symbols
-  cleaned = cleaned.replace(/[\/\\|^@#_~`{}[\]<>]/g, ' ');
+  // 10. Remove Backslashes, Slashes, Pipes, Carets, Underscores, Brackets, At symbols, Ampersands, Math symbols
+  cleaned = cleaned.replace(/[\/\\|^@#_~`{}[\]<>&=+$%]/g, ' ');
 
   // 11. Remove Unicode Emojis (compatible with ES5/ES6 tsconfig)
   cleaned = cleaned.replace(/[\uD83C-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]/g, '');
