@@ -651,6 +651,7 @@ const ChatForm = memo(function ChatForm({
                     }
                   >
                     <TextareaAutosize
+                      id="vaka-prompt-textarea"
                       {...registerProps}
                       ref={(e) => {
                         ref(e);
