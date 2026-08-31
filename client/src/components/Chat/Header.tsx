@@ -93,7 +93,11 @@ function Header({
           <SubagentThreadLink threadId={parentConversationId} labelClassName="hidden lg:inline" />
         )}
         {!readOnly && <ModelSelector startupConfig={startupConfig} />}
-        {!readOnly && <ConvoPopoverMenu />}
+        {!readOnly && (
+          <div className="flex flex-shrink-0 items-center">
+            <ConvoPopoverMenu />
+          </div>
+        )}
         {!readOnly && interfaceConfig.presets === true && interfaceConfig.modelSelect === true && (
           <PresetsMenu />
         )}

@@ -15,7 +15,7 @@ export default function ConvoPopoverMenu() {
 
   const { data, isLoading } = useConversationsInfiniteQuery(
     { search: searchQuery || undefined },
-    { enabled: isAuthenticated && open, staleTime: 10000 },
+    { enabled: isAuthenticated, staleTime: 10000 },
   );
 
   const conversations = data?.pages.flatMap((page) => page.conversations) ?? [];
@@ -24,12 +24,12 @@ export default function ConvoPopoverMenu() {
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>
         <button
-          className="flex items-center gap-1.5 rounded-xl border border-border-light bg-presentation px-3 py-1.5 text-xs sm:text-sm font-medium text-text-primary hover:bg-surface-active-alt transition-all shadow-xs"
-          aria-label={localize('com_nav_chats') || 'Mis Conversaciones'}
+          className="flex items-center gap-1.5 rounded-xl border border-border-medium bg-surface-tertiary px-2.5 py-1.5 text-xs sm:text-sm font-semibold text-text-primary hover:bg-surface-active-alt transition-all shadow-xs"
+          aria-label={localize('com_nav_chats') || 'Mis Chats'}
         >
           <MessageSquare className="size-4 text-primary" />
-          <span className="hidden sm:inline">Mis Conversaciones</span>
-          <ChevronDown className="size-3.5 opacity-60" />
+          <span className="inline">Mis Chats</span>
+          <ChevronDown className="size-3.5 opacity-70" />
         </button>
       </Popover.Trigger>
 
@@ -37,7 +37,7 @@ export default function ConvoPopoverMenu() {
         <Popover.Content
           align="start"
           sideOffset={8}
-          className="z-50 w-80 max-h-[460px] overflow-hidden rounded-2xl border border-border-medium/70 bg-surface-primary/95 backdrop-blur-md p-3 shadow-2xl transition-all text-text-primary flex flex-col gap-2.5"
+          className="z-[1000] w-80 max-h-[460px] overflow-hidden rounded-2xl border border-border-medium/70 bg-surface-primary/95 backdrop-blur-md p-3 shadow-2xl transition-all text-text-primary flex flex-col gap-2.5"
         >
           {/* Header Controls */}
           <div className="flex items-center justify-between gap-2 border-b border-border-light pb-2">

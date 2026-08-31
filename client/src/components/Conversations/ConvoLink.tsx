@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '~/utils';
+import { cn, hasRealTitle, truncateTextToTitle } from '~/utils';
 
 interface ConvoLinkProps {
   isActiveConvo: boolean;
@@ -55,7 +55,7 @@ const ConvoLink: React.FC<ConvoLinkProps> = ({
           onRename();
         }}
       >
-        {title || localize('com_ui_untitled')}
+        {hasRealTitle(title) ? title : (title ? truncateTextToTitle(title) : localize('com_ui_untitled'))}
         <div
           className={cn(
             'pointer-events-none absolute bottom-0 right-0 top-0 w-20 bg-gradient-to-l',
