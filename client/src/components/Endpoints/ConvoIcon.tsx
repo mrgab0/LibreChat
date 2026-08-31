@@ -147,11 +147,10 @@ export default function ConvoIcon({
     }
 
     return (
-      <ProviderIcon
-        provider={provider}
-        model={conversation?.model}
-        size={size != null ? Math.round(size * artScale) : undefined}
-        className={cn(className, context === 'landing' && provider === ProviderId.cohere && 'p-2')}
+      <img
+        src="/assets/logo.svg"
+        alt="VaKA LLM Icon"
+        className={cn('h-full w-full object-contain rounded-md', className)}
       />
     );
   };

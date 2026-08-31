@@ -50,8 +50,8 @@ const ConvoIconURL: React.FC<ConvoIconURLProps> = ({
   }
 
   return (
-    <div className="shadow-stroke relative flex h-full items-center justify-center rounded-full bg-surface-primary text-text-primary">
-      <ProviderIcon provider={provider} size={41} className="h-2/3 w-2/3" />
+    <div className="shadow-stroke relative flex h-full items-center justify-center rounded-md border border-border-medium bg-surface-tertiary p-0.5 text-text-primary">
+      <img src="/assets/logo.svg" className="h-full w-full object-contain rounded-xs" alt="VaKA LLM" />
     </div>
   );
 };

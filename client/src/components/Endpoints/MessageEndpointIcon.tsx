@@ -40,8 +40,8 @@ const MessageEndpointIcon: React.FC<IconProps> = (props) => {
       </div>
     ) : (
       <div className="h-6 w-6">
-        <div className="shadow-stroke flex h-6 w-6 items-center justify-center overflow-hidden rounded-full">
-          <AssistantIcon className="h-2/3 w-2/3 text-text-tertiary" />
+        <div className="shadow-stroke flex h-6 w-6 items-center justify-center overflow-hidden rounded-md border border-border-medium bg-surface-tertiary p-0.5">
+          <img src="/assets/logo.svg" className="h-full w-full object-contain rounded-xs" alt="VaKA LLM" />
         </div>
       </div>
     ),
@@ -69,8 +69,8 @@ const MessageEndpointIcon: React.FC<IconProps> = (props) => {
       </div>
     ) : (
       <div className="h-6 w-6">
-        <div className="shadow-stroke flex h-6 w-6 items-center justify-center overflow-hidden rounded-full">
-          <Feather className="h-2/3 w-2/3 text-text-tertiary" aria-hidden="true" />
+        <div className="shadow-stroke flex h-6 w-6 items-center justify-center overflow-hidden rounded-md border border-border-medium bg-surface-tertiary p-0.5">
+          <img src="/assets/logo.svg" className="h-full w-full object-contain rounded-xs" alt="VaKA LLM" />
         </div>
       </div>
     ),
@@ -91,33 +91,21 @@ const MessageEndpointIcon: React.FC<IconProps> = (props) => {
     return agentsIcon.icon;
   }
 
-  if (imageURL != null) {
-    return (
-      <div
-        title={endpoint ?? ''}
-        style={{
-          width: size,
-          height: size,
-        }}
-        className={cn(
-          'relative flex h-9 w-9 items-center justify-center rounded-sm p-1 text-text-primary',
-          props.className ?? '',
-        )}
-      >
-        <div className="h-6 w-6">
-          <div className="overflow-hidden rounded-full">
-            <img className="h-full w-full object-contain" src={imageURL} alt={`${endpoint} Icon`} />
-          </div>
-        </div>
-        {errorBadge}
-      </div>
-    );
-  }
-
   return (
-    <ProviderAvatar provider={provider} model={model} size={size} className={props.className}>
+    <div
+      title={endpoint ?? 'VaKA LLM'}
+      style={{
+        width: size,
+        height: size,
+      }}
+      className={cn(
+        'relative flex items-center justify-center overflow-hidden rounded-md border border-border-medium bg-surface-tertiary p-0.5 text-text-primary shadow-xs',
+        props.className ?? '',
+      )}
+    >
+      <img className="h-full w-full object-contain rounded-xs" src={imageURL || '/assets/logo.svg'} alt="VaKA LLM Icon" />
       {errorBadge}
-    </ProviderAvatar>
+    </div>
   );
 };
 
