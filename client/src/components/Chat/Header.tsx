@@ -16,6 +16,7 @@ import SubagentThreadLink from './SubagentThreadLink';
 import BookmarkMenu from './Menus/BookmarkMenu';
 import AddMultiConvo from './AddMultiConvo';
 import { useHasAccess } from '~/hooks';
+import ConvoPopoverMenu from './Menus/ConvoPopoverMenu';
 import { cn } from '~/utils';
 import store from '~/store';
 
@@ -92,6 +93,7 @@ function Header({
           <SubagentThreadLink threadId={parentConversationId} labelClassName="hidden lg:inline" />
         )}
         {!readOnly && <ModelSelector startupConfig={startupConfig} />}
+        {!readOnly && <ConvoPopoverMenu />}
         {!readOnly && interfaceConfig.presets === true && interfaceConfig.modelSelect === true && (
           <PresetsMenu />
         )}
