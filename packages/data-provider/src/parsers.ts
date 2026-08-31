@@ -456,8 +456,8 @@ export function cleanTextForSpeech(text: string): string {
   // 9. Remove Quotes (", ', “, ”, ‘, ’, «, »)
   cleaned = cleaned.replace(/["'“”‘’«»]/g, '');
 
-  // 10. Remove Unicode Emojis
-  cleaned = cleaned.replace(/\p{Extended_Pictographic}/gu, '');
+  // 10. Remove Unicode Emojis (compatible with ES5/ES6 tsconfig)
+  cleaned = cleaned.replace(/[\uD83C-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]/g, '');
 
   // 11. Remove Text Emoticons (:) :-P :D xD XD ;) etc.)
   cleaned = cleaned
@@ -465,7 +465,6 @@ export function cleanTextForSpeech(text: string): string {
     .replace(/(?:^|\s)(?::[-~]?[()DdPpSSOo\/\\|]|;[-~]?[()D]|:\)|:\(|;\))(?=$|\s|[.,!?])/gi, ' ');
 
   return cleaned.replace(/\s+/g, ' ').trim();
-}
 }
 
 export const SEPARATORS = ['.', '?', '!', '۔', '。', '‥', ';', '¡', '¿', '\n', '```'];
