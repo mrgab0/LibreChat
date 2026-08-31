@@ -38,6 +38,7 @@ import {
   removeConvoFromAllQueries,
   findConversationInInfinite,
   preserveStreamedContentIdentity,
+  truncateTextToTitle,
 } from '~/utils';
 import {
   startupConfigKey,
@@ -552,12 +553,18 @@ export default function useEventHandlers({
       if (setConversation && !isAddedRequest) {
         setConversation((prevState) => {
           const parentId = requestMessage.parentMessageId;
-          const title = getConvoTitle({
+          let title = getConvoTitle({
             parentId,
             queryClient,
             conversationId,
             currentTitle: prevState?.title,
           });
+          if (parentId === Constants.NO_PARENT || !hasRealTitle(title)) {
+            const firstText = requestMessage?.text || userMessage?.text;
+            if (firstText) {
+              title = truncateTextToTitle(firstText);
+            }
+          }
           update = tConvoUpdateSchema.parse({
             ...prevState,
             conversationId,

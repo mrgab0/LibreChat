@@ -14,6 +14,17 @@ import type { TConversation, GroupedConversations } from 'librechat-data-provide
 import type { InfiniteData } from '@tanstack/react-query';
 import { isTemporaryConversation } from './conversation';
 
+export function truncateTextToTitle(text: string, maxLength: number = 38): string {
+  if (!text || typeof text !== 'string') {
+    return 'Nuevo Chat';
+  }
+  const cleaned = text.trim().replace(/\s+/g, ' ');
+  if (cleaned.length <= maxLength) {
+    return cleaned;
+  }
+  return cleaned.slice(0, maxLength).trim() + '...';
+}
+
 // Date group helpers
 export const dateKeys = {
   today: 'com_ui_date_today',
