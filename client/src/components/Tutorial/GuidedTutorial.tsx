@@ -143,14 +143,14 @@ export default function GuidedTutorial() {
         />
       )}
 
-      {/* Floating Tutorial Card */}
+      {/* Floating Tutorial Card with Glassmorphism Translucency */}
       <div
         style={{
           top: cardTop,
           left: cardLeft,
           transform: transform,
         }}
-        className="fixed z-[102] w-[90vw] max-w-[380px] rounded-2xl border border-border-medium bg-surface-primary p-5 shadow-2xl transition-all duration-300 text-text-primary"
+        className="fixed z-[102] w-[92vw] max-w-[360px] rounded-2xl border border-border-medium/60 bg-surface-primary/75 backdrop-blur-md p-5 shadow-[0_10px_35px_rgba(0,0,0,0.5)] transition-all duration-300 text-text-primary"
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border-light pb-3 mb-3">
