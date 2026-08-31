@@ -157,7 +157,7 @@ export default function Landing({ centerFormOnLanding }: { centerFormOnLanding: 
         <div
           className={`flex ${textHasMultipleLines ? 'flex-col' : 'flex-col md:flex-row'} items-center justify-center gap-2`}
         >
-          <div className={`relative size-10 justify-center ${textHasMultipleLines ? 'mb-2' : ''}`}>
+          <div className={`relative h-28 w-28 sm:h-32 sm:w-32 justify-center ${textHasMultipleLines ? 'mb-4' : 'mb-2'}`}>
             {isTemporary ? (
               <div className={containerClassName}>
                 <MessageCircleDashed className="h-2/3 w-2/3 text-text-primary" aria-hidden="true" />
@@ -170,8 +170,8 @@ export default function Landing({ centerFormOnLanding }: { centerFormOnLanding: 
                 endpointsConfig={endpointsConfig}
                 containerClassName={containerClassName}
                 context="landing"
-                className="h-2/3 w-2/3 text-text-primary"
-                size={41}
+                className="h-full w-full text-text-primary"
+                size={120}
               />
             )}
             {startupConfig?.showBirthdayIcon && (
