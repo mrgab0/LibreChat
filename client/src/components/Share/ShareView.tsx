@@ -308,14 +308,23 @@ function ShareHeader({
     <section className="mx-auto w-full px-2 pb-3 pt-4 md:px-5 md:pb-4 md:pt-6">
       <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-3 rounded-2xl border border-border-light bg-surface-secondary px-4 py-4 shadow-xl md:gap-4 md:rounded-3xl md:px-6 md:py-5">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-          <div className="min-w-0 flex-1 space-y-1.5 md:space-y-2">
-            <ShareTitle title={title} />
-            {formattedDate && (
-              <div className="flex items-center gap-2 text-sm text-text-secondary">
-                <CalendarDays className="size-4" aria-hidden="true" />
-                <span>{formattedDate}</span>
-              </div>
-            )}
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-md border border-border-medium bg-surface-tertiary p-1 shadow-xs">
+              <img
+                src="/assets/logo.svg"
+                className="h-full w-full object-contain rounded-sm"
+                alt="VaKA LLM"
+              />
+            </div>
+            <div className="min-w-0 flex-1 space-y-1.5 md:space-y-2">
+              <ShareTitle title={title} />
+              {formattedDate && (
+                <div className="flex items-center gap-2 text-sm text-text-secondary">
+                  <CalendarDays className="size-4" aria-hidden="true" />
+                  <span>{formattedDate}</span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center gap-2 md:self-start">

@@ -79,6 +79,15 @@ function Header({
           hiddenBehindNav,
         )}
       >
+        <div className="flex flex-shrink-0 items-center">
+          <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-md border border-border-medium bg-surface-tertiary p-1 shadow-xs">
+            <img
+              src="/assets/logo.svg"
+              className="h-full w-full object-contain rounded-sm"
+              alt="VaKA LLM"
+            />
+          </div>
+        </div>
         {parentConversationId != null && (
           <SubagentThreadLink threadId={parentConversationId} labelClassName="hidden lg:inline" />
         )}
