@@ -456,8 +456,8 @@ export function cleanTextForSpeech(text: string): string {
   // 9. Remove Quotes (", ', “, ”, ‘, ’, «, »)
   cleaned = cleaned.replace(/["'“”‘’«»]/g, '');
 
-  // 10. Remove Backslashes, Slashes, Pipes, Carets, Underscores, Brackets, At symbols, Ampersands, Math symbols
-  cleaned = cleaned.replace(/[\/\\|^@#_~`{}[\]<>&=+$%]/g, ' ');
+  // 10. Remove Backslashes, Slashes, Pipes, Carets, Underscores, Brackets, At symbols, Ampersands, Math symbols, and opening Spanish punctuation ¿ ¡
+  cleaned = cleaned.replace(/[\/\\|^@#_~`{}[\]<>&=+$%¿¡]/g, ' ');
 
   // 11. Remove Unicode Emojis (compatible with ES5/ES6 tsconfig)
   cleaned = cleaned.replace(/[\uD83C-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]/g, '');
@@ -466,6 +466,12 @@ export function cleanTextForSpeech(text: string): string {
   cleaned = cleaned
     .replace(/\b(?:xD|XD|x-D)\b/gi, '')
     .replace(/(?:^|\s)(?::[-~]?[()DdPpSSOo\/\\|]|;[-~]?[()D]|:\)|:\(|;\))(?=$|\s|[.,!?])/gi, ' ');
+
+  // 13. Replace line breaks with sentence pauses
+  cleaned = cleaned.replace(/\n+/g, '. ');
+
+  // 14. Normalize sentence boundary whitespace
+  cleaned = cleaned.replace(/(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÑ])/g, ' ');
 
   return cleaned.replace(/\s+/g, ' ').trim();
 }
