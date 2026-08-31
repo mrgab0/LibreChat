@@ -66,7 +66,7 @@ function AuthLayout({
         <div className="mt-8 flex h-36 w-full items-center justify-center">
           <div className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-2xl border border-border-medium bg-surface-tertiary p-3 shadow-lg">
             <img
-              src="assets/logo.svg"
+              src="/assets/logo.svg"
               className="h-full w-full object-contain rounded-md"
               alt={startupConfig?.appTitle ?? 'VaKA LLM'}
             />
