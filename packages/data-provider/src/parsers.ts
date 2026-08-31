@@ -456,10 +456,13 @@ export function cleanTextForSpeech(text: string): string {
   // 9. Remove Quotes (", ', “, ”, ‘, ’, «, »)
   cleaned = cleaned.replace(/["'“”‘’«»]/g, '');
 
-  // 10. Remove Unicode Emojis (compatible with ES5/ES6 tsconfig)
+  // 10. Remove Backslashes, Slashes, Pipes, Carets, Underscores, Brackets, At symbols
+  cleaned = cleaned.replace(/[\/\\|^@#_~`{}[\]<>]/g, ' ');
+
+  // 11. Remove Unicode Emojis (compatible with ES5/ES6 tsconfig)
   cleaned = cleaned.replace(/[\uD83C-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]/g, '');
 
-  // 11. Remove Text Emoticons (:) :-P :D xD XD ;) etc.)
+  // 12. Remove Text Emoticons (:) :-P :D xD XD ;) etc.)
   cleaned = cleaned
     .replace(/\b(?:xD|XD|x-D)\b/gi, '')
     .replace(/(?:^|\s)(?::[-~]?[()DdPpSSOo\/\\|]|;[-~]?[()D]|:\)|:\(|;\))(?=$|\s|[.,!?])/gi, ' ');
