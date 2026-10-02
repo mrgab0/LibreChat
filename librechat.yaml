@@ -28,6 +28,18 @@ endpoints:
     titleModel: "gemini-2.0-flash"
 
   custom:
+    - name: "Jarvis Agent"
+      apiKey: "dummy-key"
+      baseURL: "https://papers-neither-antenna-jerry.trycloudflare.com/v1"
+      models:
+        default:
+          - "hermes-core"
+        fetch: false
+      titleConvo: true
+      titleModel: "current_model"
+      summarize: false
+      modelDisplayLabel: "Hermes (Cloud Shell)"
+
     - name: "Groq"
       apiKey: "${GROQ_API_KEY}"
       baseURL: "https://api.groq.com/openai/v1"
