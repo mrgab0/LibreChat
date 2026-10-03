@@ -1,0 +1,19 @@
+name: Jarvis Proactive Heartbeat
+on:
+  schedule:
+    - cron: '0 14,22 * * *'
+  workflow_dispatch:
+jobs:
+  think:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Run Proactive Thinker
+        env:
+          OPENROUTER_KEY: ${{ secrets.OPENROUTER_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        run: python scripts/proactive_thinker.py
