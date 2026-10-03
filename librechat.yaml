@@ -30,7 +30,7 @@ endpoints:
   custom:
     - name: "Jarvis Agent"
       apiKey: "dummy-key"
-      baseURL: "https://indie-participants-tent-mirrors.trycloudflare.com/v1"
+      baseURL: "https://jarvis.aldri.shop/v1"
       models:
         default:
           - "hermes-core"
